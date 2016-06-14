@@ -3,7 +3,7 @@
 
 DATE=`date +%Y%m%d%H%M%S`
 
-export SERVER_USER=ssong
+export SERVER_USER=tomcat
 export SERVER_NAME=simple
 
 ## set base env
@@ -63,7 +63,7 @@ echo "================================================"
 #echo "SERVER_HOME=$SERVER_HOME"
 echo "CATALINA_HOME=$CATALINA_HOME"
 echo "CATALINA_BASE=$CATALINA_BASE"
-echo "SERVER_NAME=$SERVER_NAME"
-echo "JAVA_OPTS=$JAVA_OPTS"
+echo "SERVER_NAME  =$SERVER_NAME"
+echo "JAVA_OPTS    =$JAVA_OPTS"
 echo "================================================"
 
