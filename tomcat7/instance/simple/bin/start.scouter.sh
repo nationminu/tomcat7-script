@@ -31,7 +31,7 @@ fi
 # Scouter Options
 SCOUTER_HOME=../../../../scouter.0.4.14
 JAVA_OPTS="$JAVA_OPTS -javaagent:$SCOUTER_HOME/agent.java/scouter.agent.jar"
-JAVA_OPTS="$JAVA_OPTS -Dscouter.config=$SCOUTER_HOME/conf/tomcat-simple.conf"
+JAVA_OPTS="$JAVA_OPTS -Dscouter.config=$SCOUTER_HOME/agent.java/tomcat-simple.conf"
 
 mv $LOG_DIR/gclog/${SERVER_NAME}_gc.log $LOG_DIR/gclog/${SERVER_NAME}_gc.log.$DATE
 mv $LOG_DIR/nohup/${SERVER_NAME}.out $LOG_DIR/nohup/${SERVER_NAME}.out.$DATE
