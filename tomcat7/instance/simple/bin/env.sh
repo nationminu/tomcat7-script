@@ -17,22 +17,26 @@ export LOG_DIR=$CATALINA_BASE/logs
 
 export PATH=$JAVA_HOME/bin:$CATALINA_HOME/bin:$PATH
 
+# PORT OFFSET GROUP 
+export PORT_OFFSET=0
+let HTTP_PORT=8080+$PORT_OFFSET
+let AJP_PORT=8009+$PORT_OFFSET
+let SHUTDOWN_PORT=8005+$PORT_OFFSET
+export HTTP_PORT AJP_PORT SHUTDOWN_PORT
+
 JAVA_OPTS="-server"
 JAVA_OPTS="$JAVA_OPTS -D[SERVER_NAME=$SERVER_NAME]"
 JAVA_OPTS="$JAVA_OPTS -Dserver.base=$SERVER_HOME"
-JAVA_OPTS="$JAVA_OPTS -Dcatalina.base.log=$LOG_DIR"
-#JAVA_OPTS="$JAVA_OPTS -Dserver.application.dir=/app/applications/simple/simple.war"
+JAVA_OPTS="$JAVA_OPTS -Dcatalina.base.log=$LOG_DIR" 
 
 JAVA_OPTS="$JAVA_OPTS -Dfile.encoding=UTF-8"
-JAVA_OPTS="$JAVA_OPTS -Dserver.encoding=UTF-8"
-JAVA_OPTS="$JAVA_OPTS -Dserver.user=${SERVER_USER}"
-JAVA_OPTS="$JAVA_OPTS -Dserver.jvmRoute=${SERVER_NAME}"
+JAVA_OPTS="$JAVA_OPTS -Dserver.encoding=UTF-8" 
+JAVA_OPTS="$JAVA_OPTS -Dserver.name=${SERVER_NAME}"
 
 JAVA_OPTS="$JAVA_OPTS -Xms1024m"
 JAVA_OPTS="$JAVA_OPTS -Xmx1024m"
 JAVA_OPTS="$JAVA_OPTS -XX:PermSize=256m"
-JAVA_OPTS="$JAVA_OPTS -XX:MaxPermSize=256m"
-#JAVA_OPTS="$JAVA_OPTS -Xss256k"
+JAVA_OPTS="$JAVA_OPTS -XX:MaxPermSize=256m" 
 
 JAVA_OPTS="$JAVA_OPTS -verbose:gc"
 JAVA_OPTS="$JAVA_OPTS -Xloggc:$LOG_DIR/gclog/${SERVER_NAME}_gc.log"
@@ -47,15 +51,14 @@ JAVA_OPTS="$JAVA_OPTS -XX:HeapDumpPath=$LOG_DIR/logs/${SERVER_NAME}_java_pid_$DA
 #JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote.ssl=false"
 #JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote.authenticate=false"
 
+# PORT GROUP - edit server.xml
+JAVA_OPTS="$JAVA_OPTS -Dhttp.bind.port=$HTTP_PORT"
+JAVA_OPTS="$JAVA_OPTS -Dajp.bind.port=$AJP_PORT"
+JAVA_OPTS="$JAVA_OPTS -Dshutdown.bind.port=$SHUTDOWN_PORT"
+
 # SecureRandom Bug
 # http://wiki.apache.org/tomcat/HowTo/FasterStartUp
 JAVA_OPTS="$JAVA_OPTS -Djava.security.egd=file:/dev/./urandom"
-
-# Cluster Group Member(bind_addres:local ip,other_bind_adressx=other member) using server-ha.xml
-#JAVA_OPTS="$JAVA_OPTS -Dbind_address=10.0.1.100"
-#JAVA_OPTS="$JAVA_OPTS -Dother_bind_address1=10.0.1.101"
-#JAVA_OPTS="$JAVA_OPTS -Dother_bind_address2=10.0.1.102"
-#JAVA_OPTS="$JAVA_OPTS -Dother_bind_address3=10.0.1.103"
 
 export JAVA_OPTS
 
@@ -64,6 +67,6 @@ echo "================================================"
 echo "CATALINA_HOME=$CATALINA_HOME"
 echo "CATALINA_BASE=$CATALINA_BASE"
 echo "SERVER_NAME  =$SERVER_NAME"
-echo "JAVA_OPTS    =$JAVA_OPTS"
+#echo "JAVA_OPTS    =$JAVA_OPTS"
 echo "================================================"
 
