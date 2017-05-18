@@ -1,6 +1,8 @@
 #!/bin/sh
-. ./env.sh
+BASEDIR=$(dirname "$0")
+. $BASEDIR/env.sh
 
+unset JAVA_OPTS
 LOG_DATE=`date +%Y-%m-%d`
 
 #tail -f $LOG_DIR/$SERVER_NAME.out
