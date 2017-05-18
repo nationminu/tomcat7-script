@@ -15,7 +15,7 @@ fi
 UNAME=`id -u -n`
 if [ e$UNAME != "e$SERVER_USER" ]
 then
-    echo "Oops! $SERVER_USER USER must allowed to start $SERVER_NAME Server ..."
+    echo "Oops! $SERVER_USER USER to start $SERVER_NAME Server ..."
     exit;
 fi
 # ------------------------------------
