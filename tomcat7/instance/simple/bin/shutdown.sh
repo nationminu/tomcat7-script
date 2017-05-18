@@ -14,7 +14,7 @@ fi
 UNAME=`id -u -n`
 if [ e$UNAME != "e$SERVER_USER" ]
 then
-    echo "$SERVER_USER USER to shutdowns $SERVER_NAME Server ..."
+    echo "$SERVER_USER USER to shutdown $SERVER_NAME Server ..."
     exit;
 fi
 # ------------------------------------
