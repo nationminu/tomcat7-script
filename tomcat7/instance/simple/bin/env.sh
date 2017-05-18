@@ -20,9 +20,11 @@ export PATH=$JAVA_HOME/bin:$CATALINA_HOME/bin:$PATH
 # PORT OFFSET GROUP 
 export PORT_OFFSET=0
 let HTTP_PORT=8080+$PORT_OFFSET
+let HTTPS_PORT=8443+$PORT_OFFSET
 let AJP_PORT=8009+$PORT_OFFSET
 let SHUTDOWN_PORT=8005+$PORT_OFFSET
-export HTTP_PORT AJP_PORT SHUTDOWN_PORT
+let JMX_PORT=8100+$PORT_OFFSET
+export HTTP_PORT HTTPS_PORT AJP_PORT SHUTDOWN_PORT JMX_PORT
 
 JAVA_OPTS="-server"
 JAVA_OPTS="$JAVA_OPTS -D[SERVER_NAME=$SERVER_NAME]"
@@ -38,6 +40,9 @@ JAVA_OPTS="$JAVA_OPTS -Xmx1024m"
 JAVA_OPTS="$JAVA_OPTS -XX:PermSize=256m"
 JAVA_OPTS="$JAVA_OPTS -XX:MaxPermSize=256m" 
 
+JAVA_OPTS="$JAVA_OPTS -XX:+UseParallelGC" 
+JAVA_OPTS="$JAVA_OPTS -XX:+UseParallelOldGC"  
+
 JAVA_OPTS="$JAVA_OPTS -verbose:gc"
 JAVA_OPTS="$JAVA_OPTS -Xloggc:$LOG_DIR/gclog/${SERVER_NAME}_gc.log"
 JAVA_OPTS="$JAVA_OPTS -XX:+PrintGCDetails"
@@ -46,13 +51,16 @@ JAVA_OPTS="$JAVA_OPTS -XX:+PrintHeapAtGC"
 JAVA_OPTS="$JAVA_OPTS -XX:+HeapDumpOnOutOfMemoryError"
 JAVA_OPTS="$JAVA_OPTS -XX:HeapDumpPath=$LOG_DIR/logs/${SERVER_NAME}_java_pid_$DATA.hprof"
 
-#JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote"
-#JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote.port=8186"
-#JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote.ssl=false"
-#JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote.authenticate=false"
+JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote"
+JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote.port=$JMX_PORT"
+JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote.ssl=false"
+JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote.authenticate=true"
+JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote.access.file=$CATALINA_BASE/conf/jmxremote.access"
+JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote.password.file=$CATALINA_BASE/conf/jmxremote.password"
 
 # PORT GROUP - edit server.xml
 JAVA_OPTS="$JAVA_OPTS -Dhttp.bind.port=$HTTP_PORT"
+JAVA_OPTS="$JAVA_OPTS -Dhttps.bind.port=$HTTPS_PORT"
 JAVA_OPTS="$JAVA_OPTS -Dajp.bind.port=$AJP_PORT"
 JAVA_OPTS="$JAVA_OPTS -Dshutdown.bind.port=$SHUTDOWN_PORT"
 
