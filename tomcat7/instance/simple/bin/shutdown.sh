@@ -2,8 +2,6 @@
 BASEDIR=$(dirname "$0")
 . $BASEDIR/env.sh
 
-LOG_DATE=`date +%Y-%m-%d`
-
 # ------------------------------------
 PID=`ps -ef | grep java | grep "=$SERVER_NAME" | awk '{print $2}'`
 
@@ -16,11 +14,12 @@ fi
 UNAME=`id -u -n`
 if [ e$UNAME != "e$SERVER_USER" ]
 then
-    echo "$SERVER_USER USER to start JBoss SERVER - $SERVER_NAME..."
+    echo "$SERVER_USER USER to shutdowns $SERVER_NAME Server ..."
     exit;
 fi
 # ------------------------------------
 
 unset JAVA_OPTS
+export JAVA_OPTS="-Dshutdown.bind.port=$SHUTDOWN_PORT"
 
 $CATALINA_HOME/bin/catalina.sh stop 
