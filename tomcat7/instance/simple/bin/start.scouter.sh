@@ -1,5 +1,6 @@
 #!/bin/sh
-. ./env.sh
+BASEDIR=$(dirname "$0")
+. $BASEDIR/env.sh
 
 # ------------------------------------
 PID=`ps -ef | grep java | grep "=$SERVER_NAME" | awk '{print $2}'`
@@ -7,14 +8,14 @@ echo $PID
    
 if [ e$PID != "e" ]
 then
-    echo "Tomcat($SERVER_NAME) is already RUNNING..."
+    echo "Oops! Tomcat($SERVER_NAME) is already RUNNING..."
     exit; 
 fi
 # ------------------------------------
 UNAME=`id -u -n`
 if [ e$UNAME != "e$SERVER_USER" ]
 then
-    echo "$SERVER_USER USER to start SERVER - $SERVER_NAME..."
+    echo "Oops! $SERVER_USER USER must allowed to start $SERVER_NAME Server ..."
     exit;
 fi
 # ------------------------------------
