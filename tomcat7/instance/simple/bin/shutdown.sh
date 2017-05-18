@@ -1,5 +1,6 @@
 #!/bin/sh
-. ./env.sh
+BASEDIR=$(dirname "$0")
+. $BASEDIR/env.sh
 
 LOG_DATE=`date +%Y-%m-%d`
 
